@@ -3,171 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة إكسبو الشاملة | 2026</title>
+    <title>منصة العز الرقمية | إكسبو 2026</title>
     <style>
-        :root { --gold: #D4AF37; --black: #050505; --gray: #111; }
-        * { box-sizing: border-box; transition: all 0.4s ease; }
+        :root { --gold: #D4AF37; --black: #050505; --accent: #1a1a1a; }
+        * { box-sizing: border-box; }
+        
         body {
             background-color: var(--black);
-            color: white;
-            font-family: 'Segoe UI', sans-serif;
+            color: #fff;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* خلفية شبكية فخمة */
+        .grid-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(to right, #111 1px, transparent 1px),
+                              linear-gradient(to bottom, #111 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+        }
+
+        .main-container {
+            width: 90%;
+            max-width: 500px;
             text-align: center;
+            animation: fadeIn 1.2s ease-out;
         }
 
-        /* خلفية النجوم الهادئة */
-        #star-canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.6; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .container { max-width: 650px; margin: auto; padding: 40px 20px; }
-
-        /* ستايل الأقسام */
-        .section-card {
-            background: rgba(20, 20, 20, 0.8);
-            border: 1px solid #222;
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 25px;
-            backdrop-filter: blur(10px);
+        .logo-title {
+            font-size: 2.5rem;
+            color: var(--gold);
+            letter-spacing: 6px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
         }
 
-        .section-card:hover { border-color: var(--gold); box-shadow: 0 0 20px rgba(212, 175, 55, 0.1); }
+        .tagline {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+        }
 
-        h1, h2 { color: var(--gold); font-weight: 300; margin-top: 0; }
-        p { color: #ccc; line-height: 1.6; font-size: 0.9rem; }
-
-        /* الرادار */
-        .radar {
-            width: 200px; height: 200px;
-            border-radius: 50%;
-            border: 1px solid #333;
-            margin: 20px auto;
+        /* نظام الرادار المطور */
+        .scanner-unit {
             position: relative;
-            background: radial-gradient(circle, #0a0a0a, #000);
-            overflow: hidden;
-        }
-        .sweep {
-            position: absolute; width: 50%; height: 50%; top: 0; left: 50%;
-            background: linear-gradient(0deg, transparent, rgba(212, 175, 55, 0.3));
-            border-left: 1px solid var(--gold);
-            transform-origin: bottom left;
-            animation: sweep 4s linear infinite;
-        }
-        @keyframes sweep { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .dot {
-            position: absolute; width: 8px; height: 8px; background: var(--gold);
-            border-radius: 50%; cursor: pointer; box-shadow: 0 0 10px var(--gold);
+            width: 260px;
+            height: 260px;
+            margin: 0 auto 40px;
+            border: 1px solid var(--accent);
+            border-radius: 50%;
+            background: radial-gradient(circle, #080808 0%, #000 100%);
         }
 
-        /* أدوات التسجيل */
+        .scan-line {
+            position: absolute;
+            width: 50%;
+            height: 2px;
+            top: 50%;
+            left: 50%;
+            background: linear-gradient(to right, transparent, var(--gold));
+            transform-origin: left;
+            animation: rotateScan 3s linear infinite;
+        }
+
+        @keyframes rotateScan { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .nav-point {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--gold);
+        }
+
+        /* النموذج */
+        .form-unit {
+            background: rgba(15, 15, 15, 0.9);
+            border: 1px solid #222;
+            padding: 30px;
+            border-radius: 15px;
+        }
+
         input, select {
-            width: 100%; padding: 12px; margin: 10px 0;
-            background: #000; border: 1px solid #333;
-            color: white; border-radius: 10px; text-align: center;
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #000;
+            border: 1px solid #333;
+            color: #fff;
+            border-radius: 5px;
+            outline: none;
         }
 
-        .btn-gold {
-            background: var(--gold); color: black; border: none;
-            padding: 15px; width: 100%; border-radius: 10px;
-            font-weight: bold; cursor: pointer; margin-top: 10px;
-        }
-        .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 5px 15px var(--gold); }
+        input:focus { border-color: var(--gold); }
 
-        /* البطاقة */
-        #final-badge {
+        .action-btn {
+            background: var(--gold);
+            color: #000;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+            letter-spacing: 1px;
+            border-radius: 5px;
+        }
+
+        /* بطاقة التصريح */
+        #pass-card {
             display: none;
-            border: 2px solid var(--gold);
-            background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'), #0a0a0a;
-            padding: 30px; border-radius: 15px; margin-top: 20px;
-            animation: slideUp 0.6s ease-out;
+            border: 1px solid var(--gold);
+            padding: 40px;
+            background: #0a0a0a;
+            border-radius: 10px;
+            position: relative;
         }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        footer { margin-top: 50px; color: #444; font-size: 0.7rem; letter-spacing: 2px; }
+        footer {
+            margin-top: 50px;
+            color: #222;
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+        }
     </style>
 </head>
 <body>
 
-<canvas id="star-canvas"></canvas>
+<div class="grid-bg"></div>
 
-<div class="container">
-    <!-- القسم 1: التعريف -->
-    <div class="section-card">
-        <h1>إكسبو 2026</h1>
-        <p>مرحباً بك في الحدث التقني الأبرز. استكشف الابتكارات، تواصل مع المبدعين، وصوّت لمشروعك المفضل في منصة واحدة ذكية.</p>
+<div class="main-container">
+    <div class="logo-title">EXPO 2026</div>
+    <div class="tagline">FUTURE INNOVATION GATEWAY</div>
+
+    <!-- نظام الرصد -->
+    <div class="scanner-unit">
+        <div class="scan-line"></div>
+        <!-- نقاط الأركان -->
+        <div class="nav-point" style="top:25%; left:35%;" onclick="alert('منطقة الابتكار البرمجي')"></div>
+        <div class="nav-point" style="top:65%; left:75%;" onclick="alert('مختبر الذكاء الاصطناعي')"></div>
+        <div class="nav-point" style="top:50%; left:20%;" onclick="alert('مركز العروض التقنية')"></div>
     </div>
 
-    <!-- القسم 2: الرادار (الخريطة) -->
-    <div class="section-card">
-        <h2>رادار المواقع</h2>
-        <div class="radar">
-            <div class="sweep"></div>
-            <div class="dot" style="top:20%; left:30%;" onclick="alert('ركن البرمجة: المنطقة الذهبية')"></div>
-            <div class="dot" style="top:60%; left:70%;" onclick="alert('ركن التصميم: ممر B')"></div>
-            <div class="dot" style="top:40%; left:50%;" onclick="alert('المسرح: قاعة العرض')"></div>
-        </div>
-        <p style="font-size: 0.7rem;">اضغط على النقاط الذهبية لتحديد المواقع</p>
-    </div>
-
-    <!-- القسم 3: تسجيل الحضور والتصويت -->
-    <div class="section-card" id="reg-form">
-        <h2>تسجيل الدخول والتصويت</h2>
-        <input type="text" id="uName" placeholder="أدخل اسمك الكريم">
-        <select id="uVote">
-            <option value="">صوّت لأفضل ركن</option>
-            <option value="البرمجة">مختبر البرمجة</option>
-            <option value="الفنون">ركن الفنون</option>
-            <option value="العلوم">النادي العلمي</option>
+    <!-- مدخلات الزائر -->
+    <div class="form-unit" id="input-area">
+        <input type="text" id="visitor" placeholder="اسم الزائر المعتمد">
+        <select id="vote">
+            <option value="">تأكيد التصويت للركن الأفضل</option>
+            <option value="1">ركن البرمجيات</option>
+            <option value="2">ركن الهندسة</option>
         </select>
-        <button class="btn-gold" onclick="generateBadge()">تأكيد الحضور والحصول على التصريح</button>
+        <button class="action-btn" onclick="verify()">توليد تصريح الدخول</button>
     </div>
 
-    <!-- القسم 4: البطاقة النهائية -->
-    <div id="final-badge">
-        <div style="font-size: 0.7rem; color: var(--gold); letter-spacing: 3px;">VISITOR PASS</div>
-        <h2 id="badgeName" style="margin: 10px 0; font-size: 2rem;"></h2>
-        <div style="border-top: 1px solid #222; padding-top: 10px; font-size: 0.8rem; color: #666;">
-            تم التصديق بواسطة نظام العز الذكي
-        </div>
-        <div style="margin-top: 15px; font-family: monospace; letter-spacing: 5px;">||| || |||| |||</div>
+    <!-- التصريح النهائي -->
+    <div id="pass-card">
+        <div style="color: var(--gold); font-size: 0.8rem; margin-bottom: 20px;">ACCESS GRANTED</div>
+        <h2 id="final-name" style="margin: 0; font-weight: 300; font-size: 2rem;"></h2>
+        <p style="color: #444; margin-top: 20px;">AL-EZZ SYSTEMS // VALID 2026</p>
     </div>
 
-    <footer>AL-EZZ ECOSYSTEM // 2026</footer>
+    <footer>حقوق الطبع محفوظة لأسرة العز</footer>
 </div>
 
 <script>
-    // نظام النجوم في الخلفية
-    const canvas = document.getElementById('star-canvas');
-    const ctx = canvas.getContext('2d');
-    let stars = [];
-    function init() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        for(let i=0; i<100; i++) stars.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*1.5});
-    }
-    function animate() {
-        ctx.clearRect(0,0,canvas.width, canvas.height);
-        ctx.fillStyle = "#D4AF37";
-        stars.forEach(st => {
-            ctx.beginPath(); ctx.arc(st.x, st.y, st.s, 0, Math.PI*2); ctx.fill();
-            st.y += 0.3; if(st.y > canvas.height) st.y = 0;
-        });
-        requestAnimationFrame(animate);
-    }
-    window.addEventListener('resize', init);
-    init(); animate();
+    function verify() {
+        const name = document.getElementById('visitor').value;
+        const vote = document.getElementById('vote').value;
 
-    // إصدار البطاقة
-    function generateBadge() {
-        const name = document.getElementById('uName').value;
-        const vote = document.getElementById('uVote').value;
-        if(!name || !vote) { alert("أكمل بياناتك يا بطل!"); return; }
-
-        document.getElementById('reg-form').style.opacity = '0';
-        setTimeout(() => {
-            document.getElementById('reg-form').style.display = 'none';
-            document.getElementById('final-badge').style.display = 'block';
-            document.getElementById('badgeName').innerText = name;
-        }, 400);
+        if(name && vote) {
+            document.getElementById('input-area').style.display = 'none';
+            document.getElementById('pass-card').style.display = 'block';
+            document.getElementById('final-name').innerText = name;
+        } else {
+            alert("يرجى إكمال بيانات الاعتماد");
+        }
     }
 </script>
 
