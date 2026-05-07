@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة المعدل الأكاديمي</title>
+    <style>
+        /* تصميم Luxury Minimalist */
+        :root {
+            --gold: #c5a059;
+            --dark-bg: #1a1a1a;
+            --white: #ffffff;
+            --gray: #2d2d2d;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: var(--gray);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            width: 100%;
+            max-width: 450px;
+            border: 1px solid var(--gold);
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #bbb;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background: #1a1a1a;
+            color: white;
+            box-sizing: border-box;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--gold);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--gold);
+            color: var(--dark-bg);
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.2s, opacity 0.3s;
+            margin-top: 1rem;
+        }
+
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .result-box {
+            margin-top: 2rem;
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            background: #222;
+            display: none; /* مخفي حتى يتم الحساب */
+        }
+
+        .result-value {
+            font-size: 2.5rem;
+            color: var(--gold);
+            display: block;
+            margin: 10px 0;
+        }
+
+        footer {
+            margin-top: 2rem;
+            font-size: 0.7rem;
+            text-align: center;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>حاسبة المعدل</h2>
+    
+    <div id="subjects-container">
+        <!-- المدخلات -->
+        <div class="input-group">
+            <label>الدرجة من 100</label>
+            <input type="number" class="score" placeholder="مثلاً: 95">
+        </div>
+        <div class="input-group">
+            <label>عدد الساعات</label>
+            <input type="number" class="hours" placeholder="مثلاً: 3">
+        </div>
+    </div>
+
+    <button onclick="calculateGPA()">احسب المعدل</button>
+
+    <div class="result-box" id="resultBox">
+        <span>معدلك المتوقع هو:</span>
+        <span class="result-value" id="gpaValue">0.00</span>
+        <p id="feedback" style="font-size: 0.8rem; color: #aaa;"></p>
+    </div>
+
+    <footer>
+        جميع الحقوق محفوظة لأسرة العز &copy; 2026
+    </footer>
+</div>
+
+<script>
+    function calculateGPA() {
+        const scores = document.getElementsByClassName('score');
+        const hours = document.getElementsByClassName('hours');
+        
+        let totalPoints = 0;
+        let totalHours = 0;
+
+        for (let i = 0; i < scores.length; i++) {
+            let s = parseFloat(scores[i].value);
+            let h = parseFloat(hours[i].value);
+
+            if (s && h) {
+                // تحويل الدرجة لوزن (من 5) - مثال تقريبي
+                let weight = 0;
+                if (s >= 95) weight = 5.0;
+                else if (s >= 90) weight = 4.75;
+                else if (s >= 85) weight = 4.5;
+                else if (s >= 80) weight = 4.0;
+                else if (s >= 75) weight = 3.5;
+                else if (s >= 70) weight = 3.0;
+                else weight = 2.0;
+
+                totalPoints += (weight * h);
+                totalHours += h;
+            }
+        }
+
+        if (totalHours > 0) {
+            let gpa = totalPoints / totalHours;
+            document.getElementById('gpaValue').innerText = gpa.toFixed(2);
+            document.getElementById('resultBox').style.display = 'block';
+            
+            // نصيحة بسيطة
+            let feedback = "";
+            if (gpa >= 4.5) feedback = "ممتاز! استمر على هذا المستوى الرائع.";
+            else if (gpa >= 3.75) feedback = "جيد جداً، بإمكانك الوصول للأفضل.";
+            else feedback = "شد حيلك، القادم أفضل بإذن الله.";
+            document.getElementById('feedback').innerText = feedback;
+        } else {
+            alert("يرجى إدخال بيانات صحيحة");
+        }
+    }
+</script>
+
+</body>
+</html>
