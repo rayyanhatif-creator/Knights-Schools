@@ -2,140 +2,154 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>The Black Box | نظام التشفير السري</title>
+    <title>بنك أسرة العز المعرفي</title>
     <style>
+        :root {
+            --gold: #c5a059;
+            --black: #0a0a0a;
+            --gray: #1a1a1a;
+            --white: #ffffff;
+        }
+
         body {
-            background-color: #050505;
-            color: #00ff41; /* لون الهكرز الكلاسيكي أو خله #d4af37 للذهبي */
-            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--black);
+            color: var(--white);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
         }
 
-        .terminal {
-            width: 80%;
-            max-width: 600px;
-            background: #000;
-            border: 1px solid #333;
-            padding: 20px;
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
-            border-radius: 5px;
-            position: relative;
-        }
-
-        .terminal::before {
-            content: "AL-EZZ SECURITY SYSTEM v2.0";
-            position: absolute;
-            top: -25px;
-            left: 10px;
-            font-size: 0.8rem;
-            color: #444;
-        }
-
-        h2 { text-align: center; letter-spacing: 5px; text-transform: uppercase; }
-
-        textarea {
+        .container {
             width: 100%;
-            height: 100px;
-            background: #0a0a0a;
-            border: 1px solid #00ff41;
-            color: #00ff41;
-            padding: 10px;
-            box-sizing: border-box;
-            margin: 10px 0;
-            outline: none;
-            resize: none;
+            max-width: 700px;
         }
 
-        .controls { display: flex; gap: 10px; }
+        header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 1px solid var(--gold);
+            margin-bottom: 30px;
+        }
 
-        button {
-            flex: 1;
-            padding: 10px;
-            background: transparent;
-            border: 1px solid #00ff41;
-            color: #00ff41;
-            cursor: pointer;
+        h1 { color: var(--gold); font-weight: 300; margin: 0; letter-spacing: 2px; }
+        p.subtitle { color: #888; font-size: 0.9rem; margin-top: 10px; }
+
+        .search-box {
+            margin-bottom: 30px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 15px;
+            background: var(--gray);
+            border: 1px solid #333;
+            color: white;
+            border-radius: 10px;
+            box-sizing: border-box;
+            outline: none;
+            margin-bottom: 15px;
+        }
+
+        input:focus { border-color: var(--gold); }
+
+        .btn-add {
+            background: var(--gold);
+            color: var(--black);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
             font-weight: bold;
+            cursor: pointer;
+            width: 100%;
             transition: 0.3s;
         }
 
-        button:hover {
-            background: #00ff41;
-            color: #000;
+        .btn-add:hover { opacity: 0.9; transform: translateY(-2px); }
+
+        .question-card {
+            background: var(--gray);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border-right: 4px solid var(--gold);
+            animation: fadeIn 0.5s ease;
         }
 
-        #output {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px dashed #444;
-            min-height: 50px;
-            word-break: break-all;
-            font-size: 0.9rem;
-        }
-
-        .cursor {
+        .question-text { font-size: 1.1rem; margin-bottom: 10px; display: block; }
+        .answer-text { color: var(--gold); font-size: 0.95rem; display: block; }
+        
+        .tag {
+            font-size: 0.7rem;
+            background: #333;
+            padding: 4px 10px;
+            border-radius: 20px;
+            color: #aaa;
+            margin-top: 10px;
             display: inline-block;
-            width: 10px;
-            height: 18px;
-            background: #00ff41;
-            animation: blink 0.8s infinite;
         }
 
-        @keyframes blink { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        footer { text-align: center; margin-top: 50px; color: #444; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
-<div class="terminal">
-    <h2>SYSTEM LOCKED</h2>
-    <p>> أدخل رسالتك السرية أدناه:</p>
-    <textarea id="message" placeholder="اكتب هنا..."></textarea>
-    
-    <div class="controls">
-        <button onclick="encrypt()">تشفير (ENCRYPT)</button>
-        <button onclick="decrypt()">فك التشفير (DECRYPT)</button>
+<div class="container">
+    <header>
+        <h1>بنك أسرة العز المعرفي</h1>
+        <p class="subtitle">منصة تبادل الأسئلة والخبرات بين الطلاب</p>
+    </header>
+
+    <!-- إضافة سؤال جديد -->
+    <div class="search-box">
+        <input type="text" id="qInput" placeholder="اكتب السؤال هنا...">
+        <textarea id="aInput" placeholder="اكتب الإجابة أو الملاحظة هنا..."></textarea>
+        <button class="btn-add" onclick="addQuestion()">إضافة إلى البنك المعرفي</button>
     </div>
 
-    <div id="output">جاري انتظار الأوامر...<span class="cursor"></span></div>
-    
-    <p style="font-size: 0.7rem; color: #333; margin-top: 20px; text-align: center;">
-        حقوق الوصول محفوظة لأسرة العز © 2026
-    </p>
+    <hr style="border: 0; border-top: 1px solid #222; margin: 40px 0;">
+
+    <!-- قائمة الأسئلة -->
+    <div id="questionsList">
+        <!-- أسئلة تجريبية -->
+        <div class="question-card">
+            <span class="question-text">ما هي عاصمة البرمجة الحديثة؟</span>
+            <span class="answer-text">تعتبر لغة Python حالياً الأكثر شعبية للذكاء الاصطناعي.</span>
+            <span class="tag">حاسب آلي</span>
+        </div>
+    </div>
+
+    <footer>حقوق المنصة محفوظة لأسرة العز © 2026</footer>
 </div>
 
 <script>
-    // وظيفة التشفير بسيطة لكن شكلها معقد (Base64)
-    function encrypt() {
-        let msg = document.getElementById('message').value;
-        if(!msg) return;
+    function addQuestion() {
+        const q = document.getElementById('qInput').value;
+        const a = document.getElementById('aInput').value;
+
+        if (q === "" || a === "") {
+            alert("يرجى ملء السؤال والإجابة لإفادة زملائك.");
+            return;
+        }
+
+        const list = document.getElementById('questionsList');
         
-        document.getElementById('output').innerText = "جاري التشفير...";
-        
-        setTimeout(() => {
-            let encoded = btoa(unescape(encodeURIComponent(msg)));
-            document.getElementById('output').innerText = "الرمز السري: " + encoded;
-        }, 800);
-    }
+        const card = document.createElement('div');
+        card.className = 'question-card';
+        card.innerHTML = `
+            <span class="question-text">${q}</span>
+            <span class="answer-text">${a}</span>
+            <span class="tag">مضاف حديثاً</span>
+        `;
 
-    function decrypt() {
-        let msg = document.getElementById('message').value;
-        if(!msg) return;
+        list.insertBefore(card, list.firstChild);
 
-        document.getElementById('output').innerText = "جاري فك التشفير...";
-
-        setTimeout(() => {
-            try {
-                let decoded = decodeURIComponent(escape(atob(msg)));
-                document.getElementById('output').innerText = "الرسالة الأصلية: " + decoded;
-            } catch(e) {
-                document.getElementById('output').innerText = "خطأ: الرمز غير صحيح!";
-            }
-        }, 800);
+        // مسح الخانات بعد الإضافة
+        document.getElementById('qInput').value = "";
+        document.getElementById('aInput').value = "";
     }
 </script>
 
