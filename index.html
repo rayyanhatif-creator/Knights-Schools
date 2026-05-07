@@ -2,200 +2,140 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة العز المتكاملة</title>
+    <title>The Black Box | نظام التشفير السري</title>
     <style>
-        /* التنسيق العام - Luxury Minimalist */
-        :root {
-            --gold: #c5a059;
-            --black: #0f0f0f;
-            --gray: #1a1a1a;
-            --white: #ffffff;
-            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--black);
-            color: var(--white);
-            margin: 0;
+            background-color: #050505;
+            color: #00ff41; /* لون الهكرز الكلاسيكي أو خله #d4af37 للذهبي */
+            font-family: 'Courier New', Courier, monospace;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
         }
 
-        .main-container {
-            width: 100%;
-            max-width: 500px;
-            padding: 20px;
-            text-align: center;
-        }
-
-        /* واجهة الاختيار */
-        .home-screen {
-            display: block;
-            animation: fadeIn 0.8s ease;
-        }
-
-        .app-card {
-            display: none; /* مخفي حتى يتم الاختيار */
-            background: var(--gray);
-            padding: 30px;
-            border-radius: 20px;
-            border: 1px solid var(--gold);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
-            animation: slideUp 0.5s ease;
-        }
-
-        h1 { color: var(--gold); margin-bottom: 30px; font-weight: 300; letter-spacing: 2px; }
-
-        .menu-btn {
-            background: transparent;
-            border: 1px solid var(--gold);
-            color: var(--gold);
-            padding: 20px;
-            width: 100%;
-            margin-bottom: 15px;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .menu-btn:hover {
-            background: var(--gold);
-            color: var(--black);
-            box-shadow: 0 0 20px rgba(197, 160, 89, 0.4);
-        }
-
-        /* العناصر المشتركة */
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
+        .terminal {
+            width: 80%;
+            max-width: 600px;
             background: #000;
             border: 1px solid #333;
-            color: white;
-            border-radius: 8px;
-            box-sizing: border-box;
-            outline: none;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+            border-radius: 5px;
+            position: relative;
         }
 
-        input:focus { border-color: var(--gold); }
+        .terminal::before {
+            content: "AL-EZZ SECURITY SYSTEM v2.0";
+            position: absolute;
+            top: -25px;
+            left: 10px;
+            font-size: 0.8rem;
+            color: #444;
+        }
 
-        .action-btn {
-            background: var(--gold);
-            color: var(--black);
-            border: none;
-            padding: 15px;
+        h2 { text-align: center; letter-spacing: 5px; text-transform: uppercase; }
+
+        textarea {
             width: 100%;
-            border-radius: 8px;
+            height: 100px;
+            background: #0a0a0a;
+            border: 1px solid #00ff41;
+            color: #00ff41;
+            padding: 10px;
+            box-sizing: border-box;
+            margin: 10px 0;
+            outline: none;
+            resize: none;
+        }
+
+        .controls { display: flex; gap: 10px; }
+
+        button {
+            flex: 1;
+            padding: 10px;
+            background: transparent;
+            border: 1px solid #00ff41;
+            color: #00ff41;
+            cursor: pointer;
             font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
+            transition: 0.3s;
         }
 
-        .back-btn {
-            background: none;
-            color: #666;
-            border: none;
+        button:hover {
+            background: #00ff41;
+            color: #000;
+        }
+
+        #output {
             margin-top: 20px;
-            cursor: pointer;
-            text-decoration: underline;
+            padding: 10px;
+            border: 1px dashed #444;
+            min-height: 50px;
+            word-break: break-all;
+            font-size: 0.9rem;
         }
 
-        /* أنيميشن التحليل */
-        #loader { display: none; margin: 20px 0; }
-        .scanner {
-            width: 100%; height: 2px; background: var(--gold);
-            position: relative; animation: scan 1s infinite alternate;
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 18px;
+            background: #00ff41;
+            animation: blink 0.8s infinite;
         }
 
-        @keyframes scan { from { transform: scaleX(0.1); opacity: 0.2; } to { transform: scaleX(1); opacity: 1; } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-        footer { margin-top: 40px; font-size: 0.8rem; color: #444; }
+        @keyframes blink { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
     </style>
 </head>
 <body>
 
-<div class="main-container">
+<div class="terminal">
+    <h2>SYSTEM LOCKED</h2>
+    <p>> أدخل رسالتك السرية أدناه:</p>
+    <textarea id="message" placeholder="اكتب هنا..."></textarea>
     
-    <!-- الشاشة الرئيسية -->
-    <div id="home" class="home-screen">
-        <h1>منصة الذكاء الطلابي</h1>
-        <button class="menu-btn" onclick="showApp('gpa-app')">📊 حاسبة المعدل الأكاديمي</button>
-        <button class="menu-btn" onclick="showApp('decision-app')">⚖️ محرك اتخاذ القرارات</button>
-        <footer>جميع الحقوق محفوظة لأسرة العز &copy; 2026</footer>
+    <div class="controls">
+        <button onclick="encrypt()">تشفير (ENCRYPT)</button>
+        <button onclick="decrypt()">فك التشفير (DECRYPT)</button>
     </div>
 
-    <!-- تطبيق المعدل -->
-    <div id="gpa-app" class="app-card">
-        <h2>حاسبة المعدل</h2>
-        <input type="number" id="score" placeholder="الدرجة (من 100)">
-        <input type="number" id="hours" placeholder="عدد الساعات">
-        <button class="action-btn" onclick="calcGPA()">حساب النتيجة</button>
-        <div id="gpa-res" style="margin-top:20px; color:var(--gold); font-size:1.5rem;"></div>
-        <button class="back-btn" onclick="goHome()">العودة للرئيسية</button>
-    </div>
-
-    <!-- تطبيق القرارات -->
-    <div id="decision-app" class="app-card">
-        <h2>محرك القرارات</h2>
-        <input type="text" id="c1" placeholder="الخيار الأول">
-        <input type="text" id="c2" placeholder="الخيار الثاني">
-        <button class="action-btn" onclick="startDecide()">بدء التحليل الرقمي</button>
-        
-        <div id="loader">
-            <div class="scanner"></div>
-            <p style="font-size:0.8rem;">جاري معالجة البيانات...</p>
-        </div>
-
-        <div id="dec-res" style="margin-top:20px; color:var(--gold); font-size:1.2rem;"></div>
-        <button class="back-btn" onclick="goHome()">العودة للرئيسية</button>
-    </div>
-
+    <div id="output">جاري انتظار الأوامر...<span class="cursor"></span></div>
+    
+    <p style="font-size: 0.7rem; color: #333; margin-top: 20px; text-align: center;">
+        حقوق الوصول محفوظة لأسرة العز © 2026
+    </p>
 </div>
 
 <script>
-    function showApp(appId) {
-        document.getElementById('home').style.display = 'none';
-        document.getElementById(appId).style.display = 'block';
-    }
-
-    function goHome() {
-        document.querySelectorAll('.app-card').forEach(app => app.style.display = 'none');
-        document.getElementById('home').style.display = 'block';
-        // مسح النتائج السابقة
-        document.getElementById('gpa-res').innerText = '';
-        document.getElementById('dec-res').innerText = '';
-    }
-
-    function calcGPA() {
-        let s = parseFloat(document.getElementById('score').value);
-        let h = parseFloat(document.getElementById('hours').value);
-        if(!s || !h) return alert("أدخل البيانات");
+    // وظيفة التشفير بسيطة لكن شكلها معقد (Base64)
+    function encrypt() {
+        let msg = document.getElementById('message').value;
+        if(!msg) return;
         
-        let point = s >= 95 ? 5 : s >= 90 ? 4.75 : s >= 80 ? 4 : 3;
-        document.getElementById('gpa-res').innerText = "المعدل التقريبي: " + point;
+        document.getElementById('output').innerText = "جاري التشفير...";
+        
+        setTimeout(() => {
+            let encoded = btoa(unescape(encodeURIComponent(msg)));
+            document.getElementById('output').innerText = "الرمز السري: " + encoded;
+        }, 800);
     }
 
-    function startDecide() {
-        let c1 = document.getElementById('c1').value;
-        let c2 = document.getElementById('c2').value;
-        if(!c1 || !c2) return alert("أدخل الخيارين");
+    function decrypt() {
+        let msg = document.getElementById('message').value;
+        if(!msg) return;
 
-        document.getElementById('loader').style.display = 'block';
-        document.getElementById('dec-res').innerText = '';
+        document.getElementById('output').innerText = "جاري فك التشفير...";
 
         setTimeout(() => {
-            document.getElementById('loader').style.display = 'none';
-            let winner = Math.random() > 0.5 ? c1 : c2;
-            document.getElementById('dec-res').innerText = "القرار الأفضل: " + winner;
-        }, 2000);
+            try {
+                let decoded = decodeURIComponent(escape(atob(msg)));
+                document.getElementById('output').innerText = "الرسالة الأصلية: " + decoded;
+            } catch(e) {
+                document.getElementById('output').innerText = "خطأ: الرمز غير صحيح!";
+            }
+        }, 800);
     }
 </script>
 
