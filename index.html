@@ -3,186 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حاسبة المعدل الأكاديمي</title>
+    <title>منصة العز المتكاملة</title>
     <style>
-        /* تصميم Luxury Minimalist */
+        /* التنسيق العام - Luxury Minimalist */
         :root {
             --gold: #c5a059;
-            --dark-bg: #1a1a1a;
+            --black: #0f0f0f;
+            --gray: #1a1a1a;
             --white: #ffffff;
-            --gray: #2d2d2d;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--dark-bg);
+            background-color: var(--black);
             color: var(--white);
+            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
+            overflow-x: hidden;
         }
 
-        .container {
-            background-color: var(--gray);
-            padding: 2.5rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        .main-container {
             width: 100%;
-            max-width: 450px;
-            border: 1px solid var(--gold);
-        }
-
-        h2 {
+            max-width: 500px;
+            padding: 20px;
             text-align: center;
-            color: var(--gold);
-            margin-bottom: 1.5rem;
-            letter-spacing: 1px;
         }
 
-        .input-group {
-            margin-bottom: 1rem;
-        }
-
-        label {
+        /* واجهة الاختيار */
+        .home-screen {
             display: block;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            color: #bbb;
+            animation: fadeIn 0.8s ease;
         }
 
+        .app-card {
+            display: none; /* مخفي حتى يتم الاختيار */
+            background: var(--gray);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid var(--gold);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+            animation: slideUp 0.5s ease;
+        }
+
+        h1 { color: var(--gold); margin-bottom: 30px; font-weight: 300; letter-spacing: 2px; }
+
+        .menu-btn {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 20px;
+            width: 100%;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .menu-btn:hover {
+            background: var(--gold);
+            color: var(--black);
+            box-shadow: 0 0 20px rgba(197, 160, 89, 0.4);
+        }
+
+        /* العناصر المشتركة */
         input {
             width: 100%;
             padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #444;
-            background: #1a1a1a;
+            margin: 10px 0;
+            background: #000;
+            border: 1px solid #333;
             color: white;
+            border-radius: 8px;
             box-sizing: border-box;
             outline: none;
-            transition: border 0.3s;
         }
 
-        input:focus {
-            border-color: var(--gold);
-        }
+        input:focus { border-color: var(--gold); }
 
-        button {
-            width: 100%;
-            padding: 15px;
-            background-color: var(--gold);
-            color: var(--dark-bg);
+        .action-btn {
+            background: var(--gold);
+            color: var(--black);
             border: none;
+            padding: 15px;
+            width: 100%;
             border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
-            font-size: 1rem;
-            transition: transform 0.2s, opacity 0.3s;
-            margin-top: 1rem;
+            margin-top: 10px;
         }
 
-        button:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-        }
-
-        .result-box {
-            margin-top: 2rem;
-            text-align: center;
-            padding: 15px;
-            border-radius: 8px;
-            background: #222;
-            display: none; /* مخفي حتى يتم الحساب */
-        }
-
-        .result-value {
-            font-size: 2.5rem;
-            color: var(--gold);
-            display: block;
-            margin: 10px 0;
-        }
-
-        footer {
-            margin-top: 2rem;
-            font-size: 0.7rem;
-            text-align: center;
+        .back-btn {
+            background: none;
             color: #666;
+            border: none;
+            margin-top: 20px;
+            cursor: pointer;
+            text-decoration: underline;
         }
+
+        /* أنيميشن التحليل */
+        #loader { display: none; margin: 20px 0; }
+        .scanner {
+            width: 100%; height: 2px; background: var(--gold);
+            position: relative; animation: scan 1s infinite alternate;
+        }
+
+        @keyframes scan { from { transform: scaleX(0.1); opacity: 0.2; } to { transform: scaleX(1); opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        footer { margin-top: 40px; font-size: 0.8rem; color: #444; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>حاسبة المعدل</h2>
+<div class="main-container">
     
-    <div id="subjects-container">
-        <!-- المدخلات -->
-        <div class="input-group">
-            <label>الدرجة من 100</label>
-            <input type="number" class="score" placeholder="مثلاً: 95">
-        </div>
-        <div class="input-group">
-            <label>عدد الساعات</label>
-            <input type="number" class="hours" placeholder="مثلاً: 3">
-        </div>
+    <!-- الشاشة الرئيسية -->
+    <div id="home" class="home-screen">
+        <h1>منصة الذكاء الطلابي</h1>
+        <button class="menu-btn" onclick="showApp('gpa-app')">📊 حاسبة المعدل الأكاديمي</button>
+        <button class="menu-btn" onclick="showApp('decision-app')">⚖️ محرك اتخاذ القرارات</button>
+        <footer>جميع الحقوق محفوظة لأسرة العز &copy; 2026</footer>
     </div>
 
-    <button onclick="calculateGPA()">احسب المعدل</button>
-
-    <div class="result-box" id="resultBox">
-        <span>معدلك المتوقع هو:</span>
-        <span class="result-value" id="gpaValue">0.00</span>
-        <p id="feedback" style="font-size: 0.8rem; color: #aaa;"></p>
+    <!-- تطبيق المعدل -->
+    <div id="gpa-app" class="app-card">
+        <h2>حاسبة المعدل</h2>
+        <input type="number" id="score" placeholder="الدرجة (من 100)">
+        <input type="number" id="hours" placeholder="عدد الساعات">
+        <button class="action-btn" onclick="calcGPA()">حساب النتيجة</button>
+        <div id="gpa-res" style="margin-top:20px; color:var(--gold); font-size:1.5rem;"></div>
+        <button class="back-btn" onclick="goHome()">العودة للرئيسية</button>
     </div>
 
-    <footer>
-        جميع الحقوق محفوظة لأسرة العز &copy; 2026
-    </footer>
+    <!-- تطبيق القرارات -->
+    <div id="decision-app" class="app-card">
+        <h2>محرك القرارات</h2>
+        <input type="text" id="c1" placeholder="الخيار الأول">
+        <input type="text" id="c2" placeholder="الخيار الثاني">
+        <button class="action-btn" onclick="startDecide()">بدء التحليل الرقمي</button>
+        
+        <div id="loader">
+            <div class="scanner"></div>
+            <p style="font-size:0.8rem;">جاري معالجة البيانات...</p>
+        </div>
+
+        <div id="dec-res" style="margin-top:20px; color:var(--gold); font-size:1.2rem;"></div>
+        <button class="back-btn" onclick="goHome()">العودة للرئيسية</button>
+    </div>
+
 </div>
 
 <script>
-    function calculateGPA() {
-        const scores = document.getElementsByClassName('score');
-        const hours = document.getElementsByClassName('hours');
+    function showApp(appId) {
+        document.getElementById('home').style.display = 'none';
+        document.getElementById(appId).style.display = 'block';
+    }
+
+    function goHome() {
+        document.querySelectorAll('.app-card').forEach(app => app.style.display = 'none');
+        document.getElementById('home').style.display = 'block';
+        // مسح النتائج السابقة
+        document.getElementById('gpa-res').innerText = '';
+        document.getElementById('dec-res').innerText = '';
+    }
+
+    function calcGPA() {
+        let s = parseFloat(document.getElementById('score').value);
+        let h = parseFloat(document.getElementById('hours').value);
+        if(!s || !h) return alert("أدخل البيانات");
         
-        let totalPoints = 0;
-        let totalHours = 0;
+        let point = s >= 95 ? 5 : s >= 90 ? 4.75 : s >= 80 ? 4 : 3;
+        document.getElementById('gpa-res').innerText = "المعدل التقريبي: " + point;
+    }
 
-        for (let i = 0; i < scores.length; i++) {
-            let s = parseFloat(scores[i].value);
-            let h = parseFloat(hours[i].value);
+    function startDecide() {
+        let c1 = document.getElementById('c1').value;
+        let c2 = document.getElementById('c2').value;
+        if(!c1 || !c2) return alert("أدخل الخيارين");
 
-            if (s && h) {
-                // تحويل الدرجة لوزن (من 5) - مثال تقريبي
-                let weight = 0;
-                if (s >= 95) weight = 5.0;
-                else if (s >= 90) weight = 4.75;
-                else if (s >= 85) weight = 4.5;
-                else if (s >= 80) weight = 4.0;
-                else if (s >= 75) weight = 3.5;
-                else if (s >= 70) weight = 3.0;
-                else weight = 2.0;
+        document.getElementById('loader').style.display = 'block';
+        document.getElementById('dec-res').innerText = '';
 
-                totalPoints += (weight * h);
-                totalHours += h;
-            }
-        }
-
-        if (totalHours > 0) {
-            let gpa = totalPoints / totalHours;
-            document.getElementById('gpaValue').innerText = gpa.toFixed(2);
-            document.getElementById('resultBox').style.display = 'block';
-            
-            // نصيحة بسيطة
-            let feedback = "";
-            if (gpa >= 4.5) feedback = "ممتاز! استمر على هذا المستوى الرائع.";
-            else if (gpa >= 3.75) feedback = "جيد جداً، بإمكانك الوصول للأفضل.";
-            else feedback = "شد حيلك، القادم أفضل بإذن الله.";
-            document.getElementById('feedback').innerText = feedback;
-        } else {
-            alert("يرجى إدخال بيانات صحيحة");
-        }
+        setTimeout(() => {
+            document.getElementById('loader').style.display = 'none';
+            let winner = Math.random() > 0.5 ? c1 : c2;
+            document.getElementById('dec-res').innerText = "القرار الأفضل: " + winner;
+        }, 2000);
     }
 </script>
 
