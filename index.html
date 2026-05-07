@@ -3,192 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة العز الرقمية | إكسبو 2026</title>
+    <title>إكسبو 2026 | التجربة الرقمية</title>
     <style>
-        :root { --gold: #D4AF37; --black: #050505; --accent: #1a1a1a; }
-        * { box-sizing: border-box; }
+        :root { --gold: #D4AF37; --bg: #050505; --card: #0d0d0d; }
         
+        * { box-sizing: border-box; scroll-behavior: smooth; }
         body {
-            background-color: var(--black);
+            background-color: var(--bg);
             color: #fff;
-            font-family: 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* خلفية شبكية فخمة */
-        .grid-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: linear-gradient(to right, #111 1px, transparent 1px),
-                              linear-gradient(to bottom, #111 1px, transparent 1px);
-            background-size: 40px 40px;
-            z-index: -1;
+        /* حركات بركات: خلفية جزيئات متساقطة */
+        .particles {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none;
         }
 
-        .main-container {
-            width: 90%;
-            max-width: 500px;
+        .container { max-width: 700px; margin: auto; padding: 20px; }
+
+        /* 1. قسم الشرح عن إكسبو */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            animation: fadeIn 1.2s ease-out;
+            border-bottom: 1px dashed #222;
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .logo-title {
-            font-size: 2.5rem;
+        .gold-title {
+            font-size: 3rem;
             color: var(--gold);
-            letter-spacing: 6px;
-            margin-bottom: 5px;
-            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            margin-bottom: 10px;
+            letter-spacing: 5px;
         }
 
-        .tagline {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 40px;
-            letter-spacing: 2px;
+        .description {
+            font-size: 1.1rem;
+            color: #888;
+            line-height: 1.8;
+            max-width: 500px;
         }
 
-        /* نظام الرادار المطور */
-        .scanner-unit {
-            position: relative;
-            width: 260px;
-            height: 260px;
-            margin: 0 auto 40px;
-            border: 1px solid var(--accent);
-            border-radius: 50%;
-            background: radial-gradient(circle, #080808 0%, #000 100%);
+        /* 2. قسم تصريح الدخول */
+        .card-section {
+            padding: 100px 0;
+            text-align: center;
         }
 
-        .scan-line {
-            position: absolute;
-            width: 50%;
-            height: 2px;
-            top: 50%;
-            left: 50%;
-            background: linear-gradient(to right, transparent, var(--gold));
-            transform-origin: left;
-            animation: rotateScan 3s linear infinite;
-        }
-
-        @keyframes rotateScan { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        .nav-point {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: var(--gold);
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 0 15px var(--gold);
-        }
-
-        /* النموذج */
-        .form-unit {
-            background: rgba(15, 15, 15, 0.9);
-            border: 1px solid #222;
-            padding: 30px;
-            border-radius: 15px;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 15px;
-            margin-bottom: 15px;
-            background: #000;
-            border: 1px solid #333;
-            color: #fff;
-            border-radius: 5px;
-            outline: none;
-        }
-
-        input:focus { border-color: var(--gold); }
-
-        .action-btn {
-            background: var(--gold);
-            color: #000;
-            border: none;
-            padding: 15px;
-            width: 100%;
-            font-weight: bold;
-            cursor: pointer;
-            letter-spacing: 1px;
-            border-radius: 5px;
-        }
-
-        /* بطاقة التصريح */
-        #pass-card {
-            display: none;
-            border: 1px solid var(--gold);
+        .input-group {
+            background: var(--card);
             padding: 40px;
-            background: #0a0a0a;
-            border-radius: 10px;
-            position: relative;
+            border-radius: 25px;
+            border: 1px solid #1a1a1a;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        footer {
-            margin-top: 50px;
-            color: #222;
-            font-size: 0.7rem;
-            letter-spacing: 4px;
+        input {
+            width: 100%; padding: 15px; margin: 15px 0;
+            background: #000; border: 1px solid var(--gold);
+            color: white; border-radius: 12px; text-align: center;
+            font-size: 1rem;
         }
+
+        .btn-action {
+            background: var(--gold); color: #000;
+            padding: 15px 40px; border: none; border-radius: 12px;
+            font-weight: bold; cursor: pointer; transition: 0.3s;
+            width: 100%; font-size: 1.1rem;
+        }
+        .btn-action:hover { transform: scale(1.02); box-shadow: 0 0 20px var(--gold); }
+
+        /* 3. قسم الموقع (الرادار) */
+        .map-section {
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .radar-container {
+            width: 280px; height: 280px;
+            border: 2px solid #1a1a1a;
+            border-radius: 50%;
+            margin: 30px auto;
+            position: relative;
+            background: radial-gradient(circle, #0d0d0d, #000);
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.05);
+        }
+
+        .scanner {
+            position: absolute; width: 50%; height: 50%; top: 0; left: 50%;
+            background: linear-gradient(0deg, transparent, rgba(212, 175, 55, 0.2));
+            border-left: 2px solid var(--gold);
+            transform-origin: bottom left;
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .location-dot {
+            position: absolute; width: 10px; height: 10px;
+            background: var(--gold); border-radius: 50%;
+            box-shadow: 0 0 15px var(--gold); cursor: pointer;
+        }
+
+        /* بطاقة التصريح النهائية */
+        #final-pass {
+            display: none;
+            background: linear-gradient(45deg, #111, #050505);
+            border: 2px solid var(--gold);
+            padding: 50px; border-radius: 20px;
+            margin-top: 20px; position: relative;
+            overflow: hidden;
+        }
+
+        /* حركات بركات: وميض الأركان */
+        .blinking { animation: blink 1.5s infinite; }
+        @keyframes blink { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
+
     </style>
 </head>
 <body>
 
-<div class="grid-bg"></div>
+<div class="particles" id="p-box"></div>
 
-<div class="main-container">
-    <div class="logo-title">EXPO 2026</div>
-    <div class="tagline">FUTURE INNOVATION GATEWAY</div>
+<div class="container">
+    
+    <!-- المرحلة 1: شرح إكسبو -->
+    <section class="hero-section">
+        <h1 class="gold-title">EXPO 2026</h1>
+        <p class="description">
+            منصة المستقبل التي تجمع بين الابتكار والتقنية. هنا نصنع التاريخ، ونستعرض أحدث ما توصلت إليه العقول البشرية في عالم الذكاء الاصطناعي والتصميم المستدام.
+        </p>
+        <p style="color:var(--gold); font-size:0.8rem; margin-top:20px;" class="blinking">انزل للأسفل لبدء الرحلة ↓</p>
+    </section>
 
-    <!-- نظام الرصد -->
-    <div class="scanner-unit">
-        <div class="scan-line"></div>
-        <!-- نقاط الأركان -->
-        <div class="nav-point" style="top:25%; left:35%;" onclick="alert('منطقة الابتكار البرمجي')"></div>
-        <div class="nav-point" style="top:65%; left:75%;" onclick="alert('مختبر الذكاء الاصطناعي')"></div>
-        <div class="nav-point" style="top:50%; left:20%;" onclick="alert('مركز العروض التقنية')"></div>
-    </div>
+    <!-- المرحلة 2: التصريح -->
+    <section class="card-section">
+        <div class="input-group" id="form-box">
+            <h2 style="color:var(--gold)">إصدار تصريح الدخول</h2>
+            <p style="font-size:0.8rem; color:#666">أدخل بياناتك ليتم تسجيلك في النظام الرقمي</p>
+            <input type="text" id="nameInput" placeholder="اكتب اسمك الكامل هنا">
+            <button class="btn-action" onclick="showPass()">استخراج التصريح</button>
+        </div>
 
-    <!-- مدخلات الزائر -->
-    <div class="form-unit" id="input-area">
-        <input type="text" id="visitor" placeholder="اسم الزائر المعتمد">
-        <select id="vote">
-            <option value="">تأكيد التصويت للركن الأفضل</option>
-            <option value="1">ركن البرمجيات</option>
-            <option value="2">ركن الهندسة</option>
-        </select>
-        <button class="action-btn" onclick="verify()">توليد تصريح الدخول</button>
-    </div>
+        <div id="final-pass">
+            <div style="font-size:0.7rem; letter-spacing:5px; color:var(--gold)">OFFICIAL PASS</div>
+            <h2 id="userNameDisplay" style="font-size:2.5rem; margin:20px 0; font-weight:300;"></h2>
+            <div style="border-top:1px solid #333; padding-top:20px; color:#555">
+                EXPO 2026 // رقم التصريح: <span id="randId"></span>
+            </div>
+        </div>
+    </section>
 
-    <!-- التصريح النهائي -->
-    <div id="pass-card">
-        <div style="color: var(--gold); font-size: 0.8rem; margin-bottom: 20px;">ACCESS GRANTED</div>
-        <h2 id="final-name" style="margin: 0; font-weight: 300; font-size: 2rem;"></h2>
-        <p style="color: #444; margin-top: 20px;">AL-EZZ SYSTEMS // VALID 2026</p>
-    </div>
+    <!-- المرحلة 3: الموقع (الرادار) -->
+    <section class="map-section">
+        <h2 style="color:var(--gold)">خريطة الأركان الذكية</h2>
+        <p style="color:#555">رصد تفاعلي لمواقع المعرض الرئيسية</p>
+        <div class="radar-container">
+            <div class="scanner"></div>
+            <!-- نقاط الأركان -->
+            <div class="location-dot" style="top:20%; left:40%;" title="ركن البرمجة"></div>
+            <div class="location-dot" style="top:60%; left:70%;" title="ركن الابتكار"></div>
+            <div class="location-dot" style="top:45%; left:15%;" title="المسرح"></div>
+        </div>
+        <p style="font-size:0.8rem; color:#444">النظام يعمل الآن بنجاح..</p>
+    </section>
 
-    <footer>حقوق الطبع محفوظة لأسرة العز</footer>
 </div>
 
 <script>
-    function verify() {
-        const name = document.getElementById('visitor').value;
-        const vote = document.getElementById('vote').value;
+    // حركات بركات: توليد جزيئات في الخلفية
+    const pBox = document.getElementById('p-box');
+    for(let i=0; i<50; i++) {
+        let p = document.createElement('div');
+        p.style.position = 'absolute';
+        p.style.width = '2px';
+        p.style.height = '2px';
+        p.style.background = 'rgba(212, 175, 55, 0.3)';
+        p.style.top = Math.random() * 100 + '%';
+        p.style.left = Math.random() * 100 + '%';
+        pBox.appendChild(p);
+    }
 
-        if(name && vote) {
-            document.getElementById('input-area').style.display = 'none';
-            document.getElementById('pass-card').style.display = 'block';
-            document.getElementById('final-name').innerText = name;
-        } else {
-            alert("يرجى إكمال بيانات الاعتماد");
+    // وظيفة استخراج التصريح
+    function showPass() {
+        const name = document.getElementById('nameInput').value;
+        if(name.trim() === "") {
+            alert("لازم تكتب اسمك يا بطل");
+            return;
         }
+
+        document.getElementById('form-box').style.display = 'none';
+        const pass = document.getElementById('final-pass');
+        pass.style.display = 'block';
+        document.getElementById('userNameDisplay').innerText = name;
+        document.getElementById('randId').innerText = Math.floor(Math.random() * 100000);
+        
+        // تمرير تلقائي للرادار بعد ثواني
+        setTimeout(() => {
+            window.scrollBy(0, 500);
+        }, 2000);
     }
 </script>
 
