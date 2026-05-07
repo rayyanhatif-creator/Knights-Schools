@@ -2,154 +2,185 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>بنك أسرة العز المعرفي</title>
+    <title>إكسبو المدرسة | مستشارك الذكي</title>
     <style>
         :root {
-            --gold: #c5a059;
-            --black: #0a0a0a;
-            --gray: #1a1a1a;
-            --white: #ffffff;
+            --gold: #D4AF37;
+            --black: #050505;
+            --gray: #121212;
+            --accent: #FFD700;
         }
 
         body {
             background-color: var(--black);
-            color: var(--white);
+            color: white;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 20px;
             display: flex;
             justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
         }
 
-        .container {
-            width: 100%;
-            max-width: 700px;
-        }
-
-        header {
+        .expo-container {
+            width: 90%;
+            max-width: 600px;
+            background: var(--gray);
+            padding: 40px;
+            border-radius: 30px;
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.2);
             text-align: center;
-            padding: 40px 0;
-            border-bottom: 1px solid var(--gold);
-            margin-bottom: 30px;
+            position: relative;
         }
 
-        h1 { color: var(--gold); font-weight: 300; margin: 0; letter-spacing: 2px; }
-        p.subtitle { color: #888; font-size: 0.9rem; margin-top: 10px; }
+        h1 { color: var(--gold); font-size: 2.2rem; margin-bottom: 10px; font-weight: 300; }
+        .tagline { color: #888; margin-bottom: 30px; font-size: 0.9rem; }
 
-        .search-box {
-            margin-bottom: 30px;
-        }
-
-        input, textarea {
+        .question-box { margin: 20px 0; }
+        
+        select, input {
             width: 100%;
             padding: 15px;
-            background: var(--gray);
+            background: #000;
             border: 1px solid #333;
             color: white;
-            border-radius: 10px;
-            box-sizing: border-box;
-            outline: none;
-            margin-bottom: 15px;
-        }
-
-        input:focus { border-color: var(--gold); }
-
-        .btn-add {
-            background: var(--gold);
-            color: var(--black);
-            border: none;
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            transition: 0.3s;
-        }
-
-        .btn-add:hover { opacity: 0.9; transform: translateY(-2px); }
-
-        .question-card {
-            background: var(--gray);
-            padding: 20px;
             border-radius: 12px;
             margin-bottom: 15px;
-            border-right: 4px solid var(--gold);
-            animation: fadeIn 0.5s ease;
+            font-size: 1rem;
+            outline: none;
         }
 
-        .question-text { font-size: 1.1rem; margin-bottom: 10px; display: block; }
-        .answer-text { color: var(--gold); font-size: 0.95rem; display: block; }
-        
-        .tag {
+        .btn-analyze {
+            background: linear-gradient(45deg, var(--gold), #b8860b);
+            color: black;
+            border: none;
+            padding: 18px;
+            width: 100%;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.4s;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-analyze:hover { transform: scale(1.02); box-shadow: 0 0 30px var(--gold); }
+
+        /* شاشة التحليل */
+        #loading-screen { display: none; }
+        .radar {
+            width: 100px; height: 100px;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            margin: 20px auto;
+            position: relative;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        #result-screen { display: none; animation: fadeIn 1s; }
+        .result-title { color: var(--gold); font-size: 1.8rem; margin: 20px 0; }
+
+        footer {
+            margin-top: 30px;
             font-size: 0.7rem;
-            background: #333;
-            padding: 4px 10px;
-            border-radius: 20px;
-            color: #aaa;
-            margin-top: 10px;
-            display: inline-block;
+            color: #444;
+            letter-spacing: 1px;
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        footer { text-align: center; margin-top: 50px; color: #444; font-size: 0.8rem; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <h1>بنك أسرة العز المعرفي</h1>
-        <p class="subtitle">منصة تبادل الأسئلة والخبرات بين الطلاب</p>
-    </header>
-
-    <!-- إضافة سؤال جديد -->
-    <div class="search-box">
-        <input type="text" id="qInput" placeholder="اكتب السؤال هنا...">
-        <textarea id="aInput" placeholder="اكتب الإجابة أو الملاحظة هنا..."></textarea>
-        <button class="btn-add" onclick="addQuestion()">إضافة إلى البنك المعرفي</button>
-    </div>
-
-    <hr style="border: 0; border-top: 1px solid #222; margin: 40px 0;">
-
-    <!-- قائمة الأسئلة -->
-    <div id="questionsList">
-        <!-- أسئلة تجريبية -->
-        <div class="question-card">
-            <span class="question-text">ما هي عاصمة البرمجة الحديثة؟</span>
-            <span class="answer-text">تعتبر لغة Python حالياً الأكثر شعبية للذكاء الاصطناعي.</span>
-            <span class="tag">حاسب آلي</span>
+<div class="expo-container">
+    <!-- شاشة البداية -->
+    <div id="start-screen">
+        <h1>EXPO 2026</h1>
+        <p class="tagline">حلل مستقبلك المهني عبر خوارزميات العز الذكية</p>
+        
+        <div class="question-box">
+            <input type="text" id="userName" placeholder="أدخل اسمك الكريم">
+            <select id="interest">
+                <option value="">ما هو مجال اهتمامك الأكبر؟</option>
+                <option value="logic">المنطق والرياضيات</option>
+                <option value="art">التصميم والفنون</option>
+                <option value="business">التجارة والإدارة</option>
+                <option value="science">العلوم والابتكار</option>
+            </select>
         </div>
+        <button class="btn-analyze" onclick="startAnalysis()">تحليل البيانات المهنية</button>
     </div>
 
-    <footer>حقوق المنصة محفوظة لأسرة العز © 2026</footer>
+    <!-- شاشة التحليل (للأكشن) -->
+    <div id="loading-screen">
+        <div class="radar"></div>
+        <p id="loading-text">جاري مطابقة المهارات مع سوق العمل السعودي...</p>
+    </div>
+
+    <!-- شاشة النتيجة -->
+    <div id="result-screen">
+        <p>بناءً على تحليلاتنا يا <span id="resName" style="color:var(--gold)"></span>:</p>
+        <div class="result-title" id="careerRes"></div>
+        <p id="careerDesc" style="color:#aaa; font-size:0.9rem; line-height:1.6;"></p>
+        <button class="btn-analyze" style="margin-top:20px; background:none; border:1px solid var(--gold); color:var(--gold);" onclick="location.reload()">تجربة زائر آخر</button>
+    </div>
+
+    <footer>مشروع معرض إكسبو - برمجة أسرة العز</footer>
 </div>
 
 <script>
-    function addQuestion() {
-        const q = document.getElementById('qInput').value;
-        const a = document.getElementById('aInput').value;
+    function startAnalysis() {
+        const name = document.getElementById('userName').value;
+        const interest = document.getElementById('interest').value;
 
-        if (q === "" || a === "") {
-            alert("يرجى ملء السؤال والإجابة لإفادة زملائك.");
+        if(!name || !interest) {
+            alert("فضلاً أدخل اسمك واختر مجال اهتمامك");
             return;
         }
 
-        const list = document.getElementById('questionsList');
-        
-        const card = document.createElement('div');
-        card.className = 'question-card';
-        card.innerHTML = `
-            <span class="question-text">${q}</span>
-            <span class="answer-text">${a}</span>
-            <span class="tag">مضاف حديثاً</span>
-        `;
+        document.getElementById('start-screen').style.display = 'none';
+        document.getElementById('loading-screen').style.display = 'block';
 
-        list.insertBefore(card, list.firstChild);
+        let texts = ["فحص الميول الشخصية...", "تحليل احتياجات رؤية 2030...", "تحديد المسار الأمثل..."];
+        let i = 0;
+        let interval = setInterval(() => {
+            document.getElementById('loading-text').innerText = texts[i];
+            i++;
+            if(i >= texts.length) {
+                clearInterval(interval);
+                showResult(name, interest);
+            }
+        }, 1200);
+    }
 
-        // مسح الخانات بعد الإضافة
-        document.getElementById('qInput').value = "";
-        document.getElementById('aInput').value = "";
+    function showResult(name, interest) {
+        document.getElementById('loading-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('resName').innerText = name;
+
+        const resTitle = document.getElementById('careerRes');
+        const resDesc = document.getElementById('careerDesc');
+
+        if(interest === "logic") {
+            resTitle.innerText = "هندسة البرمجيات والذكاء الاصطناعي";
+            resDesc.innerText = "لديك عقلية تحليلية فذة، هذا المسار سيجعلك من صناع التكنولوجيا القادمين.";
+        } else if(interest === "art") {
+            resTitle.innerText = "تصميم واجهات المستخدم (UI/UX)";
+            resDesc.innerText = "إبداعك البصري هو مفتاح نجاح التطبيقات العالمية، مكانك في قلب التصميم الرقمي.";
+        } else if(interest === "business") {
+            resTitle.innerText = "تحليل البيانات ونظم المعلومات";
+            resDesc.innerText = "القدرة على اتخاذ القرار هي موهبتك، ستكون القائد الذي يوجه الشركات تقنياً.";
+        } else {
+            resTitle.innerText = "الابتكار في التقنيات الحيوية";
+            resDesc.innerText = "دمج العلم بالتقنية هو شغفك، مستقبلك في المختبرات الذكية ومراكز الأبحاث.";
+        }
     }
 </script>
 
